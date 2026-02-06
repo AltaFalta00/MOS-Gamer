@@ -75,10 +75,11 @@ Regeln:
 - Alle Texte im Spiel auf Deutsch
 - Das Canvas soll sich an die verfügbare Größe anpassen (100% width/height des Viewports)
 - Das Spiel soll spaßig und kinderfreundlich sein
-- Verwende dezente, pastellige Farben statt greller Neonfarben. Sanfte Toene, nicht zu aggressiv
+- Das Spiel selbst soll modern und visuell ansprechend aussehen: saubere Grafik, weiche Farben, Schatten, Farbverlaeufe, Partikeleffekte wo passend. Keine grellen Neonfarben, aber auch nicht langweilig — cool und stylisch
 - Verwende KEINE Emojis in Texten oder als Grafik-Ersatz. Zeichne stattdessen alles mit Canvas-Formen (Kreise, Rechtecke, Linien etc.)
 - Füge eine kurze Anleitung am Anfang des Spiels ein (Overlay oder Startscreen)
-- Der Startscreen mit Titel und Steuerungserklaerung soll im Retro-Arcade-Stil gestaltet sein: grosse pixelige Schrift (z.B. bold, Uppercase), leichtes Pulsieren oder Blinken des "Druecke eine Taste"-Textes, dunkler Hintergrund mit dem Spieltitel prominent in der Mitte
+- NUR der Startscreen soll im Retro-Arcade-Stil sein: grosse pixelige Schrift (bold, Uppercase), pulsierender/blinkender "Klicke zum Starten"-Text, dunkler Hintergrund mit dem Spieltitel prominent in der Mitte. Das eigentliche Spiel danach soll NICHT retro aussehen sondern modern und hochwertig
+- WICHTIG: Der Startscreen muss per Mausklick UND per beliebiger Taste startbar sein. Registriere BEIDE Events: canvas.addEventListener('click') und window.addEventListener('keydown'). Der Text soll "Klicke oder druecke eine Taste zum Starten" heissen
 - Das Spiel muss sofort spielbar sein nach dem Laden
 - Wenn der Spieler verliert: zeige einen Game-Over-Screen mit dem erreichten Score und einem "Nochmal spielen"-Button der das Spiel komplett neustartet
 
