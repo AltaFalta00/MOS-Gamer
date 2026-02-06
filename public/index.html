@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOSGAMER - Erstelle dein eigenes Spiel!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Top Navigation -->
+    <nav class="topbar">
+      <a href="/" class="logo"><span class="logo-mos">mos</span>GAMER</a>
+      <span class="topbar-subtitle">montessori fachoberschule münchen</span>
+      <div class="topbar-actions">
+        <button id="key-btn" class="theme-toggle" title="API-Key Einstellungen">&#9881;</button>
+        <button id="theme-toggle" class="theme-toggle" title="Dark Mode">&#9790;</button>
+        <button id="nav-gallery-btn" class="topbar-link">Galerie</button>
+      </div>
+    </nav>
+
+    <!-- Eingabe-Bereich -->
+    <div id="creator" class="screen active">
+      <!-- Hero mit Deko-Element -->
+      <div class="hero-section">
+        <div class="hero-accent"></div>
+        <div class="hero">
+          <h1>Erstelle dein eigenes Spiel</h1>
+          <p class="subtitle">Beschreibe deine Idee und KI programmiert es für dich</p>
+        </div>
+      </div>
+
+      <div class="creator-body">
+        <div class="categories">
+          <h2>Wähle eine Vorlage oder schreib deinen eigenen Prompt:</h2>
+          <div class="category-buttons">
+            <button class="category-btn" data-prompt="Ein Weltraum-Shooter wo man mit einem Raumschiff Asteroiden abschiessen muss. Pfeiltasten zum Bewegen, Leertaste zum Schiessen.">Weltraum Shooter</button>
+            <button class="category-btn" data-prompt="Ein Jump & Run Spiel wo eine Figur über Plattformen springt und Münzen sammelt. Pfeiltasten zum Bewegen, Leertaste zum Springen.">Jump &amp; Run</button>
+            <button class="category-btn" data-prompt="Ein Fang-Spiel wo man fallende Objekte mit einem Korb auffangen muss. Maus oder Pfeiltasten zum Bewegen.">Fang-Spiel</button>
+            <button class="category-btn" data-prompt="Ein Labyrinth-Spiel wo man den Ausgang finden muss. Pfeiltasten zum Bewegen. Zufällig generiertes Labyrinth.">Labyrinth</button>
+            <button class="category-btn" data-prompt="Ein Quiz-Spiel mit lustigen Wissensfragen für Kinder. Multiple-Choice Antworten per Mausklick.">Quiz</button>
+            <button class="category-btn" data-prompt="Ein Ping Pong Spiel für zwei Spieler. Spieler 1: W/S Tasten, Spieler 2: Pfeiltasten hoch/runter.">Ping Pong</button>
+          </div>
+        </div>
+
+        <div class="name-area">
+          <input type="text" id="name-input" placeholder="Dein Username" maxlength="100">
+        </div>
+
+        <div class="prompt-area">
+          <textarea id="prompt-input" placeholder="Beschreibe dein Traumspiel! z.B. 'Ein Spiel wo ein Hund Knochen sammelt und Katzen ausweichen muss'" rows="4"></textarea>
+          <div class="char-count"><span id="char-count">0</span> / 1000</div>
+        </div>
+
+        <button id="generate-btn" class="generate-btn">
+          <span class="btn-text">Spiel erstellen!</span>
+          <span class="btn-shine"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lade-Bereich -->
+    <div id="loading" class="screen">
+      <div class="loader">
+        <div class="code-preview">
+          <div class="code-header">
+            <span class="win-icon">&#9618;</span>
+            <span class="code-filename">Windows PowerShell - spiel.html</span>
+            <span id="code-lines" class="code-lines">0 Zeilen</span>
+            <div class="win-controls">
+              <span class="win-btn">&#8211;</span>
+              <span class="win-btn">&#9633;</span>
+              <span class="win-btn win-close">&times;</span>
+            </div>
+          </div>
+          <pre id="code-output" class="code-output"></pre>
+        </div>
+        <div class="loading-status">
+          <span class="pulse-dot"></span>
+          <span id="loading-phase">Verbinde mit Claude...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spiel-Bereich -->
+    <div id="game" class="screen">
+      <div class="game-header">
+        <button id="back-btn" class="back-btn">Neues Spiel</button>
+        <button id="fullscreen-btn" class="fullscreen-btn">Vollbild</button>
+        <span id="share-link" class="share-link" style="display:none"></span>
+      </div>
+      <div id="suggestions-panel" class="suggestions-panel" style="display:none">
+        <div class="suggestions-header" id="suggestions-toggle">
+          <span class="suggestions-title"><span class="suggestions-arrow">&#9654;</span> Verbesserungsvorschläge</span>
+          <button id="suggestions-close" class="suggestions-close">&times;</button>
+        </div>
+        <div id="suggestions-body" class="suggestions-body collapsed">
+          <div id="suggestions-list" class="suggestions-list"></div>
+          <div class="suggestions-actions">
+            <button id="apply-suggestions-btn" class="apply-btn" disabled>Ausgewählte anwenden</button>
+          </div>
+        </div>
+      </div>
+      <iframe id="game-frame" sandbox="allow-scripts"></iframe>
+    </div>
+
+    <!-- Galerie -->
+    <div id="gallery" class="screen">
+      <div class="gallery-container">
+        <div class="gallery-header">
+          <h1>Galerie</h1>
+          <button id="gallery-back-btn" class="back-btn">Zurück</button>
+        </div>
+        <div class="gallery-controls">
+          <div id="tag-filter" class="tag-filter"></div>
+          <div class="sort-controls">
+            <span class="sort-label">Sortieren:</span>
+            <select id="sort-select" class="sort-select">
+              <option value="newest">Neueste</option>
+              <option value="ki-best">KI ★ Beste</option>
+              <option value="ki-worst">KI ★ Niedrigste</option>
+              <option value="user-best">Mensch ★ Beste</option>
+              <option value="user-worst">Mensch ★ Niedrigste</option>
+              <option value="votes">Meiste Votes</option>
+            </select>
+          </div>
+        </div>
+        <div id="gallery-list" class="gallery-grid"></div>
+        <p id="gallery-empty" class="gallery-empty" style="display:none">Noch keine Spiele erstellt.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- API-Key Modal -->
+  <div id="key-modal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h2>API-Key Einstellungen</h2>
+      <p class="modal-desc">Trage deinen Anthropic API-Key ein um Spiele zu generieren.</p>
+      <input type="password" id="key-input" class="key-input" placeholder="sk-ant-..." autocomplete="off">
+      <div class="modal-actions">
+        <button id="key-save" class="apply-btn">Speichern</button>
+        <button id="key-cancel" class="modal-cancel">Abbrechen</button>
+      </div>
+      <p id="key-error" class="key-error" style="display:none"></p>
+      <p id="key-success" class="key-success" style="display:none">Key gespeichert!</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
